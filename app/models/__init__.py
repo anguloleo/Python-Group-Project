@@ -1,3 +1,7 @@
-from .db import db
+from .db import db, environment, SCHEMA
 from .user import User
-from .db import environment, SCHEMA
+from .pin import Pin
+from .board import Board
+from .pin_board import pin_boards
+from .comment import Comment
+from .favorite import Favorite

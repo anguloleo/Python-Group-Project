@@ -1,18 +1,29 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
+#add the above .db code to every model file!
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-
+from .pin import Pin
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
-    if environment == "production":
+    if environment == "production":    #add to all models
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
+
+    pins = db.relationship("Pin", back_populates="user", cascade="all, delete-orphan")
+
+    comments = db.relationship("Comment", back_populates="user", cascade="all, delete-orphan")  # If delete a User, all their Comment rows should be deleted too thats why I added cascade="all, delete-orphan"
+    favorites = db.relationship("Favorite", back_populates="user",  cascade="all, delete-orphan")
+    boards = db.relationship(
+        'Board',
+        back_populates='user',
+        cascade="all, delete-orphan"
+    )
 
     @property
     def password(self):
