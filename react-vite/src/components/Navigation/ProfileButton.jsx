@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaBars, FaUserCircle } from 'react-icons/fa';
 import * as sessionActions from '../../redux/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
@@ -8,15 +8,16 @@ import SignupFormModal from '../SignupFormModal';
 import { useNavigate } from 'react-router-dom';
 import './ProfileButton.css';
 
-function ProfileButton({ user }) {
+function ProfileButton() {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.session.user);
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
   const navigate = useNavigate();
 
   const toggleMenu = (e) => {
-    e.stopPropagation(); 
-    setShowMenu(!showMenu);
+    e.stopPropagation();
+    setShowMenu(prev => !prev);
   };
 
   useEffect(() => {
@@ -29,58 +30,46 @@ function ProfileButton({ user }) {
     };
 
     document.addEventListener('click', closeMenu);
-    return () => document.removeEventListener("click", closeMenu);
+    return () => document.removeEventListener('click', closeMenu);
   }, [showMenu]);
 
   const closeMenu = () => setShowMenu(false);
 
   const logout = (e) => {
     e.preventDefault();
-    dispatch(sessionActions.logout());
+    dispatch(sessionActions.thunkLogout());
     closeMenu();
     navigate('/');
   };
 
-  const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+  const ulClassName = `profile-dropdown${showMenu ? '' : ' hidden'}`;
 
   return (
     <div className='profile-button-wrapper'>
       <button onClick={toggleMenu} className='profile-menu-button'>
         <FaBars className='menu-icon' />
-        <FaUserCircle className="user-icon" />
+        <FaUserCircle className='user-icon' />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
             <li className='dropdown-user-info'>
-              <div>Hello, {user.firstName}</div>
+              <div>Hello, {user.firstName || user.username}</div>
               <div>{user.email}</div>
             </li>
             <hr />
-            {/* Manage Pins */}
             <li className='dropdown-manage'>
-              <button onClick={() => {
-                navigate('/pins/manage');
-                closeMenu();
-              }}>
+              <button onClick={() => { navigate('/pins/manage'); closeMenu(); }}>
                 Manage Pins
               </button>
             </li>
-            {/* Manage Boards */}
             <li className='dropdown-manage'>
-              <button onClick={() => {
-                navigate('/boards/manage');
-                closeMenu();
-              }}>
+              <button onClick={() => { navigate('/boards/manage'); closeMenu(); }}>
                 Manage Boards
               </button>
             </li>
-            {/* Manage Favorites */}
             <li className='dropdown-manage'>
-              <button onClick={() => {
-                navigate('/favorites/manage');
-                closeMenu();
-              }}>
+              <button onClick={() => { navigate('/favorites/manage'); closeMenu(); }}>
                 Manage Favorites
               </button>
             </li>
@@ -95,7 +84,7 @@ function ProfileButton({ user }) {
               <OpenModalMenuItem
                 itemText="Log In"
                 onItemClick={closeMenu}
-                modalComponent={<LoginFormModal navigate={navigate} />}
+                modalComponent={<LoginFormModal />}
               />
             </li>
             <li className='dropdown-login-signup'>
