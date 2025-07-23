@@ -1,7 +1,7 @@
 import './DeleteBoardModal.css';
 
 
-const DeleteBoardModal = ({ boardId, onClose, onConfirm }) => {
+const BoardDeleteModal = ({ boardId, onClose, onConfirm }) => {
     return (
         <div className='modal-overlay'>
             <div className='modal'>
@@ -16,4 +16,4 @@ const DeleteBoardModal = ({ boardId, onClose, onConfirm }) => {
     );
 };
 
-export default DeleteBoardModal;
+export default BoardDeleteModal;

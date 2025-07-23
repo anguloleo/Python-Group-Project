@@ -1,0 +1,27 @@
+.pin-detail-container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.pin-detail-image {
+  width: 400px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.pin-detail-info {
+  flex: 1;
+}
+
+.pin-detail-info h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.pin-detail-info p {
+  margin: 0.5rem 0;
+}

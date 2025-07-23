@@ -6,11 +6,17 @@ import {
 } from "redux";
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
-import boardReducer from "./board";
+import pinsReducer from "./pins";
+import boardsReducer from "./boards";
+import commentsReducer from "./comments";
+import favoritesReducer from "./favorites";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
-  board: boardReducer,
+  boards: boardsReducer,
+  comments: commentsReducer,
+  favorites: favoritesReducer,
+  pins: pinsReducer,
 });
 
 let enhancer;

@@ -3,10 +3,12 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 import BoardList from '../components/BoardList/BoardList';
-import ManageBoards from '../components/ManageBoards';
-import ManagePinsInBoard from '../components/ManagePinsInBoard';
-import ManageFavorites from '../components/ManageFavorites';
-import ManagePins from '../components/ManagePins/ManagePins';
+import BoardManage from '../components/BoardManage/BoardManage';
+import BoardManagePins from '../components/BoardManagePins';
+import FavoriteList from '../components/FavoriteList';
+import PinManage from '../components/PinManage';
+import PinList from '../components/PinList';
+import PinDetail from '../components/PinDetail';
 
 export const router = createBrowserRouter([
   {
@@ -15,7 +17,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <h1>Welcome!</h1>,
+        element: <PinList />,
       },
       {
         path: "login",
@@ -26,8 +28,16 @@ export const router = createBrowserRouter([
         element: <SignupFormPage />,
       },
       {
+        path: "pins",
+        element: <PinList />,
+      },
+      {
+        path: "pins/:pinId",
+        element: <PinDetail />,
+      },
+      {
         path: "pins/manage",
-        element: <ManagePins />
+        element: <PinManage />,
       },
       {
         path: "boards",
@@ -35,15 +45,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "boards/manage",
-        element: <ManageBoards />
+        element: <BoardManage />,
       },
       {
         path: "boards/:boardId/manage-pins",
-        element: <ManagePinsInBoard />
+        element: <BoardManagePins />
       },
       {
-        path: "favorites/manage",
-        element: <ManageFavorites />
+        path: "favorites",
+        element: <FavoriteList />
       },
 
     ],
